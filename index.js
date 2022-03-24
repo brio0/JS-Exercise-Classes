@@ -44,8 +44,38 @@ class Airplane {
 */
 
 class Person {
-  
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+    this.stomach = [];
+  }
+  eat(edible) {
+    if (this.stomach.length < 10) {
+      this.stomach.push(edible);
+    }
+  }
+  poop() {
+    this.stomach = [];
+  }
+  toString() {
+    return `${this.name} and ${this.age}`
+  }
 }
+
+const john = new Person('john', 20)
+
+john.eat('chicken')
+john.eat('pizza')
+john.eat('salad')
+john.eat('salad')
+john.eat('salad')
+john.eat('salad')
+john.eat('salad')
+john.eat('salad')
+john.eat('salad')
+john.eat('salad')
+john.eat('hotdog')
+console.log(john.toString())
 
 /*
   TASK 2
@@ -62,8 +92,34 @@ class Person {
 */
 
 class Car {
-  
+  constructor(model, milesPerGallon) {
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;
+    this.tank = 0;
+    this.odometer = 0;
+  }
+  fill(gallons) {
+    this.tank = this.tank + gallons;
+  }
+  drive(distance) {
+    const driveable =this.tank * this.milesPerGallon;
+    if(distance <= driveable){
+      this.odometer= this.odometer + distance;
+      this.tank= this.tank - (distance / this.milesPerGallon);
+    }else {
+      this.odometer=this.odometer+ driveable;
+      this.tank= 0;
+      return `I ran out of fuel at ${this.odometer} miles!`
+    }
+  }  
 }
+
+let yota = new Car('tacoma', 20)
+
+yota.fill(50);
+yota.drive(30)
+// console.log('drive', yota.drive(10))
+console.log(yota.tank)
 
 /*
   TASK 3
@@ -79,8 +135,24 @@ class Car {
 */
 
 class Lambdasian {
-  
+  constructor(att) {
+    this.name = att.name;
+    this.age = att.age;
+    this.location = att.location;
+  }
+  speak() {
+    return `Hello my name is ${this.name}, I am from ${this.location}`
+  }
+
 }
+const joe = new Lambdasian({
+  name: 'joe',
+  age: 34,
+  location: 'California'
+})
+  ;
+
+console.log(joe.speak());
 
 /*
   TASK 4
@@ -97,9 +169,31 @@ class Lambdasian {
         + `grade` receives a `student` object and a `subject` string as arguments and returns '{student.name} receives a perfect score on {subject}'
 */
 
-class Instructor {
-
+class Instructor extends Lambdasian {
+  constructor(att) {
+    super(att);
+    this.specialty = att.specialty;
+    this.favLanguage = att.favLanguage;
+    this.catchPhrase = att.catchPhrase
+  }
+  demo(subject) {
+    return `Today we are learning about ${subject}.`;
+  }
+  grade(student, subject) {
+    return `${student.name} recieves a perfect score on ${subject}`
+  }
 }
+
+let johnson = new Instructor({
+  name: 'Mr. Johnson',
+  age: 46,
+  location: 'Arizona',
+  specialty: 'redux',
+  favLanguage: 'Javascript',
+  catchPhrase: 'kablam'
+})
+
+console.log(johnson.demo('classes'));
 
 /*
   TASK 5
@@ -117,9 +211,39 @@ class Instructor {
         + `sprintChallenge` similar to PRAssignment but returns `student.name has begun sprint challenge on {subject}`
 */
 
-class Student {
-   
+class Student extends Lambdasian {
+  constructor(att) {
+    super(att);
+    this.previousBackground = att.previousBackground;
+    this.className = att.className;
+    this.favSubjects = att.favSubjects;
+  }
+  listSubjects() {
+    return `Loving ${this.favSubjects[0]}, ${this.favSubjects[1]}, ${this.favSubjects[2]}!`
+  }
+  PRAssignment(subject) {
+    return `${this.name} has submitted a PR for ${subject}`;
+  }
+  sprintChallenge(subject) {
+    return `${this.name} has begun sprint challenge on ${subject}`
+  }
 }
+
+const logan = new Student({
+  name: 'logan',
+  age: 28,
+  location: 'Seattle',
+  specialty: 'classes',
+  favLanguage: 'java',
+  catchPhrase: 'return!',
+  previousBackground: 'beatmaker',
+  className: 'web54',
+  favSubjects: []
+})
+
+console.log(johnson.grade(logan, 'biology'))
+logan.favSubjects.push('javascript', 'css', 'java')
+console.log(logan.listSubjects())
 
 /*
   TASK 6
@@ -135,9 +259,33 @@ class Student {
         + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
 */
 
-class ProjectManager {
-   
+class ProjectManager extends Instructor {
+  constructor(att) {
+    super(att);
+    this.gradClassName = att.gradClassName;
+    this.favInstructor = att.favInstructor;
+  }
+  standUp(channel) {
+    return `${this.name} announces to ${channel}, @${channel} standy times!`
+  }
+  debugsCode(student, subject) {
+    return `${this.name} debugs ${student.name}'s code on ${subject}`
+  }
 }
+
+const karen = new ProjectManager({
+  name: 'karen',
+  age: 20,
+  location: 'florida',
+  specialty: 'redux',
+  favLanguage: 'c++',
+  catchPhrase: '',
+  gradClassName: 'Web',
+  favInstructor: 'joe'
+})
+
+console.log(karen.standUp('helpChannel'))
+console.log(karen.debugsCode(logan, 'classes'))
 
 /*
   STRETCH PROBLEM (no tests!)
